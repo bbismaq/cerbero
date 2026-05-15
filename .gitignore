@@ -1,0 +1,15 @@
+# Relatórios gerados pela skill — cada usuário tem os seus, não versionar
+reports/
+
+# Arquivos de scratch criados durante análise (HTML cru baixado pelo curl)
+co_*.html
+fnl_*.html
+lp.html
+vsl.html
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
