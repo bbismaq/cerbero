@@ -39,7 +39,7 @@ Veja um exemplo de output em [`examples/max-brain-2.1-report.md`](examples/max-b
 ### Windows
 
 ```powershell
-git clone https://github.com/<seu-usuario>/check-offer.git
+git clone https://github.com/bbismaq/check-offer.git
 cd check-offer
 .\install.ps1
 ```
@@ -47,7 +47,7 @@ cd check-offer
 ### macOS / Linux
 
 ```bash
-git clone https://github.com/<seu-usuario>/check-offer.git
+git clone https://github.com/bbismaq/check-offer.git
 cd check-offer
 chmod +x install.sh
 ./install.sh
