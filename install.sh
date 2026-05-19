@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Checagem de Oferta — instalador macOS/Linux
+# Cerbero — instalador macOS/Linux
 # Uso: ./install.sh
 
 set -e
 
 SKILL_SRC="$(dirname "$0")/SKILL.md"
-SKILL_DEST_DIR="$HOME/.claude/skills/Checagem-de-oferta"
+SKILL_DEST_DIR="$HOME/.claude/skills/Cerbero"
 SKILL_DEST="$SKILL_DEST_DIR/SKILL.md"
-REPORTS_DIR="$HOME/Documents/Check-Offer/reports"
+REPORTS_DIR="$HOME/Documents/Cerbero/reports"
 
 if [ ! -f "$SKILL_SRC" ]; then
   echo "ERRO: SKILL.md nao encontrado em $SKILL_SRC"
@@ -15,7 +15,7 @@ if [ ! -f "$SKILL_SRC" ]; then
   exit 1
 fi
 
-echo "Instalando skill Checagem-de-oferta..."
+echo "Instalando skill Cerbero..."
 
 mkdir -p "$SKILL_DEST_DIR"
 cp -f "$SKILL_SRC" "$SKILL_DEST"
@@ -28,5 +28,5 @@ echo ""
 echo "Instalacao concluida."
 echo "Proximos passos:"
 echo "  1. Reinicie o Claude Code (skills sao carregadas no boot)."
-echo "  2. Digite /Checagem-de-oferta <URL da LP> para auditar uma oferta."
+echo "  2. Digite /Cerbero <URL da LP> para auditar uma oferta."
 echo "  3. Relatorios serao salvos em: $REPORTS_DIR"
