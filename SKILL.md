@@ -158,6 +158,112 @@ Tabelas com 7+ colunas quebram visualmente em vários renderizadores (incluindo 
 
 Depois de salvar, **mostrar ao usuário o caminho do arquivo gerado** e um resumo (não o conteúdo completo — o conteúdo está no arquivo).
 
+## Pitches da operação (catálogo)
+
+A operação roda **vários pitches** (estruturas de oferta da LP) testados em A/B pra encontrar a maior margem. Cerbero deve identificar qual pitch está rodando comparando os preços/qtd dos 3 botões da LP contra o catálogo abaixo e **reportar no cabeçalho do relatório**.
+
+### Pitch 1.2 — Tradicional
+
+| Front | Preço/bottle | Frete |
+|:--|:--:|:--|
+| **1 bottle** | **$89** | + **$19** de frete |
+| **3 bottles** | **$69** | Grátis |
+| **6 bottles** | **$49** | Grátis |
+
+**Assinatura:** front de **1 bottle** com frete (~$19). LP **sem quiz** — fronts aparecem direto.
+
+### Pitch 3.2 — Quiz
+
+| Front | Preço/bottle | Frete |
+|:--|:--:|:--|
+| **1 bottle** | **$89** | + **$19** de frete |
+| **3 bottles** | **$69** | Grátis |
+| **6 bottles** | **$49** | Grátis |
+
+**Assinatura:** preços **idênticos ao 1.2**. A diferença está na LP: tem um **quiz temporizado** antes dos fronts — as opções de compra só aparecem depois que o lead responde o questionário.
+
+⚠️ **Pelos preços, 1.2 e 3.2 são indistinguíveis.** O que diferencia é a **presença do quiz na LP**. Cerbero detecta pitch pelo preço (que é igual nos dois) — então quando bater 1 bottle $89, **reporte como "Pitch 1.2 ou 3.2"** no cabeçalho e abra flag pedindo pro usuário confirmar se a LP deveria ter quiz ou não (ver check #14).
+
+### Pitch 5.1 — Afiliação BHEver e Instituto X
+
+| Front | Preço/bottle | Frete |
+|:--|:--:|:--|
+| **2 bottles** | **$79** | + **$19,99** de frete |
+| **3 bottles** | **$69** | Grátis |
+| **6 bottles** | **$49** | Grátis |
+
+**Assinatura:** front menor é **2 bottles** (não 1) com frete (~$19,99). Usado em afiliações BHEver e Instituto X.
+
+### Como identificar o pitch pelos preços extraídos
+
+1. Olhe os 3 botões da LP (passo 2 do procedimento) e veja qual é o front menor (em qtd de bottles):
+   - Front 1 bottle ($89) + frete → **Pitch 1.2 ou 3.2** (ambíguo — flag #14)
+   - Front 2 bottles ($79) + frete → **Pitch 5.1**
+2. Os preços de 3 ($69) e 6 ($49) são iguais em 1.2 / 3.2 / 5.1 — não diferenciam.
+3. Se os preços **não baterem com nenhum pitch**, **não presuma nada** — sinalize **"Pitch não catalogado"** e abra red flag (ver check #15).
+4. Sempre inclua **"Pitch utilizado"** no cabeçalho do relatório (junto de URL, data, produto).
+
+## Funis de Upsell/Downsell (catálogo)
+
+Além do pitch da LP, cerbero também deve identificar **qual funil de upsell/downsell** o cliente entra ao comprar, comparando os preços/qtd de cada etapa do funil contra o catálogo abaixo. Reportar no cabeçalho do relatório como **"Funil utilizado"**.
+
+### Funil 8.0 — EMAGRECIMENTO
+
+#### Upsell 1
+
+**Upsell 1-A** (cliente veio do FRONT 01 — comprou 1 bottle)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 6 bottles | **$19** | **$114** |
+| 4 bottles | **$25** | **$98** |
+| 2 bottles | **$29** | **$58** |
+
+**Upsell 1-B** (cliente veio do FRONT 03 — comprou 3 bottles)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 12 bottles | **$17** | **$198** |
+| 9 bottles | **$19** | **$171** |
+| 6 bottles | **$25** | **$147** |
+
+**Upsell 1-C** (cliente veio do FRONT 06 — comprou 6 bottles)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 12 bottles | **$29** | **$348** |
+| 9 bottles | **$37** | **$333** |
+| 6 bottles | **$49** | **$294** |
+
+#### Downsell 1 (em vídeo)
+
+> ⚠️ **Estrutura diferente do Upsell 1.** O Downsell 1-A serve dois fronts (1 e 3) — não há variante separada por front. O Front 06 tem variante própria (B).
+
+**Downsell 1-A** (cliente veio do FRONT 01 ou FRONT 03)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 2 + 1 FREE | **$29** | **$87** |
+| 2 bottles | **$39** | **$78** |
+
+**Downsell 1-B** (cliente veio do FRONT 06)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 6 + 3 FREE | **$29** | **$261** |
+| 4 bottles | **$39** | **$156** |
+
+**Notas sobre o Downsell 1 do Funil 8.0:**
+- "$/frasco" é calculado sobre o **total de bottles incluindo os FREE** ($87 ÷ 3 = $29; $261 ÷ 9 = $29). Isso conecta com o check #9 (Pack "X + Y FREE") — usar `total_bottles = X + Y`.
+- Downsell 1 deste funil é em **vídeo** (página `(página com vídeo)` na planilha). Cerbero deve confirmar que a URL do downsell renderiza vídeo, não só copy estática.
+
+### Como identificar o funil
+
+1. Após mapear o funil (passo 5 do procedimento), liste todos os pares **(qtd × $/frasco × total)** de cada etapa.
+2. Compare com o catálogo acima, **separando por front de entrada** (1/3/6 bottles).
+3. Se os valores não baterem com nenhum funil cadastrado, **não presuma** — abra red flag (ver check #16).
+4. Sempre inclua **"Funil utilizado"** no cabeçalho do relatório.
+
 ## Checks/divergências — TODOS obrigatórios em toda execução
 
 ⚠️ **Não pular nenhum**. Cada check abaixo precisa ser explicitamente avaliado e ou listado em "Flags" ou listado em "Sanity checks que passaram". Não omitir flags pra encurtar relatório.
@@ -175,6 +281,9 @@ Depois de salvar, **mostrar ao usuário o caminho do arquivo gerado** e um resum
 11. **Headline "U$X Discount" vs. desconto real calculado** — o número no headline grande (`<span class="discount-highlight">U$80 Discount</span>`) é texto manual e pode estar defasado. Comparar com `(normally × qtd) - total` e flagar.
 12. **"De" presente em uns upsells e ausente em outros do mesmo funil** — inconsistência visual.
 13. **Elementos ativos do checkout** — confirmar presença/valor de timer, exit popup (% off), live buyers count nos 3 checkouts da LP. Se diferente entre eles, flagar.
+14. **Coerência Pitch 1.2 vs. 3.2 (presença/ausência do quiz)** — quando os preços batem com 1.2/3.2 (front 1 bottle $89 + 3×$69 + 6×$49), os dois pitches são indistinguíveis pelo preço. **Sempre flagar pedindo pro usuário confirmar:** "Esta LP deveria rodar com quiz (Pitch 3.2) ou sem quiz (Pitch 1.2)?". Cerbero não tenta detectar o quiz automaticamente — o usuário confirma na hora se a presença/ausência do quiz na LP bate com o pitch que o time queria rodar. Esta flag captura erros do tipo "rodou sem quiz mas era pra ser 3.2" e vice-versa.
+15. **Pitch não catalogado** — se os preços/qtd dos 3 botões da LP não baterem com nenhum pitch do catálogo (1.2 / 3.2 / 5.1), **não presuma nada**. Reporte: "🚩 Pitch não catalogado — preços encontrados: [lista]. Não bate com 1.2 / 3.2 / 5.1. Pode ser: (a) erro de digitação no admin, (b) preço residual de versão antiga, ou (c) pitch novo a cadastrar. Confirmar com o time antes de subir."
+16. **Funil não catalogado** — se os preços/qtd de qualquer etapa do funil (upsell/downsell) não baterem com nenhum funil cadastrado no catálogo (atualmente: Funil 8.0), **não presuma**. Reporte: "🚩 Funil não catalogado — etapas encontradas: [lista]. Não bate com Funil 8.0 (diferença: [qual]). Pode ser: (a) erro de copy/admin; (b) funil novo a cadastrar. Verificar com o time."
 
 ## Outputs auxiliares (opcionais)
 
