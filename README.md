@@ -1,4 +1,4 @@
-# Cerbero — Auditor de Ofertas para Claude Code
+# cerbero — Auditor de Ofertas para Claude Code
 
 Skill que audita VSLs/LPs com checkout no **Pagamerican** (`pay.pagamerican.app`) e seus funis de upsell/downsell **sem precisar assistir o vídeo nem comprar nada**.
 
@@ -16,16 +16,16 @@ Ela puxa o HTML cru das páginas em modo simulação (`?pag_test_4=true`), extra
 Depois de instalar (ver abaixo), abre o Claude Code e digita:
 
 ```
-/Cerbero <URL da LP>
+/cerbero <URL da LP>
 ```
 
 Exemplo:
 
 ```
-/Cerbero https://mabrai.com/ztes21-fpnp-maxbrai21-prodmaxbra21-caps-pit12-utm-leand/
+/cerbero https://mabrai.com/ztes21-fpnp-maxbrai21-prodmaxbra21-caps-pit12-utm-leand/
 ```
 
-A skill executa, mostra um resumo na conversa e **salva o relatório completo em `~/Documents/Cerbero/reports/<slug>-<data>.md`**.
+A skill executa, mostra um resumo na conversa e **salva o relatório completo em `~/Documents/cerbero/reports/<slug>-<data>.md`**.
 
 Veja um exemplo de output em [`examples/max-brain-2.1-report.md`](examples/max-brain-2.1-report.md).
 
@@ -55,8 +55,8 @@ chmod +x install.sh
 
 ### O que o instalador faz
 
-1. Copia `SKILL.md` para `~/.claude/skills/Cerbero/SKILL.md` (lugar onde o Claude Code descobre skills globais).
-2. Cria a pasta `~/Documents/Cerbero/reports/` onde os relatórios serão salvos.
+1. Copia `SKILL.md` para `~/.claude/skills/cerbero/SKILL.md` (lugar onde o Claude Code descobre skills globais).
+2. Cria a pasta `~/Documents/cerbero/reports/` onde os relatórios serão salvos.
 
 ### Instalação manual
 
@@ -64,19 +64,19 @@ Se preferir não rodar o script, basta copiar o arquivo:
 
 **Windows (PowerShell):**
 ```powershell
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills\Cerbero" | Out-Null
-Copy-Item SKILL.md "$env:USERPROFILE\.claude\skills\Cerbero\SKILL.md"
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\Documents\Cerbero\reports" | Out-Null
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills\cerbero" | Out-Null
+Copy-Item SKILL.md "$env:USERPROFILE\.claude\skills\cerbero\SKILL.md"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\Documents\cerbero\reports" | Out-Null
 ```
 
 **macOS / Linux:**
 ```bash
-mkdir -p ~/.claude/skills/Cerbero
-cp SKILL.md ~/.claude/skills/Cerbero/SKILL.md
-mkdir -p ~/Documents/Cerbero/reports
+mkdir -p ~/.claude/skills/cerbero
+cp SKILL.md ~/.claude/skills/cerbero/SKILL.md
+mkdir -p ~/Documents/cerbero/reports
 ```
 
-Depois, **reinicie o Claude Code** (skills são carregadas no boot da sessão) e digite `/Cerbero` pra confirmar que a skill apareceu.
+Depois, **reinicie o Claude Code** (skills são carregadas no boot da sessão) e digite `/cerbero` pra confirmar que a skill apareceu.
 
 ## O que a skill checa hoje
 
