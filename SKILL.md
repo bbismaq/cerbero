@@ -118,6 +118,21 @@ Uma tabela por funil, no formato:
 | Etapa | Qtd | Por bottle | De | Por | You save | % off |
 ```
 
+**Nomenclatura obrigatória da coluna "Etapa"** — seguir o padrão usado na operação, não inventar abreviações:
+
+- Upsell: `Upsell <N> - <Letra do funil> (front de <qtd entrada>): <qtd do pack> bottles`
+- Downsell: `Downsell <N> - <Letra do funil> (front de <qtd entrada>): <qtd do pack> bottles` (ou `<X> + <Y> FREE` se aplicável)
+
+Exemplos:
+- `Upsell 1 - C (front de 6): 12 bottles`
+- `Upsell 1 - A (front de 1): 4 bottles`
+- `Downsell 1 - A (front de 1 e 3): 2 + 1 FREE`
+- `Downsell 2 - B (front de 3): 1 bottle`
+
+Onde `front de X` é a quantidade que o lead comprou na LP pra entrar nesse funil. Quando uma variante serve MÚLTIPLOS fronts (caso do Downsell 1-A do Funil 8.0 que atende 1 e 3), juntar: `(front de 1 e 3)`.
+
+**Não usar** abreviações tipo `U1.1`, `D2`, `U1.3` — confunde o usuário porque não bate com o vocabulário da operação.
+
 ### 8. SEMPRE gerar relatório .md em disco
 
 ⚠️ **Obrigatório em toda execução**: ao final da análise, salvar um arquivo Markdown completo em:
@@ -133,17 +148,55 @@ C:\Users\bbism\Documents\Cerbero\reports\<slug-da-lp>-<YYYY-MM-DD>.md
 
 O conteúdo do .md DEVE ter, em ordem:
 
-1. **Cabeçalho** — URL auditada, data, nome do produto, total de ofertas mapeadas.
-2. **Tabela da LP** — MÁX 6 colunas pra renderizar bem: `Pack | Por bottle | De | Por | You save | % off`. Slugs e funil destino vão numa lista compacta logo abaixo.
-3. **Uma tabela por funil** — MÁX 5 colunas: `Etapa | Qtd × $/un | De | Por | You save`. Detalhes (offerCode, origem do "De", URLs) vão numa lista enxuta abaixo de cada tabela.
-4. **Seção 🚨 Flags / Divergências** — listar TODOS os pontos identificados nos 13 checks, com:
-   - Tipo (🔴 erro / 🟡 inconsistência / ⚪ a confirmar)
-   - Descrição clara do problema
-   - Números envolvidos (esperado vs. encontrado)
-   - Sugestão de ação
-5. **Seção ✅ Sanity checks que passaram** — listar o que bateu (per-bottle vs. exibido, you save vs. calculado, etc.) pra dar confiança.
-6. **Seção 📋 Elementos ativos no checkout** — timer, exit popup (% off), live buyers count, com seus valores configurados nos 3 checkouts da LP.
-7. **Anexo: estrutura completa** — JSON mínimo com todos os offerCodes, URLs e preços, pra rastreabilidade.
+1. **Cabeçalho enxuto** — 2 linhas:
+   ```
+   # Cerbero — <produto>
+   <YYYY-MM-DD> · <URL encurtada: host + "..." + último segmento significativo>
+   ```
+
+2. **Status geral** — lista de UMA LINHA por item, com `✅ / ❌ / ⚠️` na frente, no formato:
+   ```
+   <status> <Aspecto>: <achado curto> — <evidência inline>
+   ```
+   - **Sem prosa expandida** abaixo de cada item. Tudo cabe na linha. Se a evidência precisa de mais de uma linha, é porque o item está desnecessariamente detalhado — encolha.
+   - **Linguagem direta, sem jargão técnico.** PROIBIDO usar as palavras `slug`, `payload`, `frontmatter`, `JSON`, `regex`, `HTML` na linha de status. O usuário lê isso e não tem que pensar "o que é payload?". Em vez disso:
+     - Em vez de "slug `semquiz`" → "URL da LP contém `semquiz`" ou "URL diz `semquiz`"
+     - Em vez de "payload `PITCH 1.2`" → "nome cadastrado no admin diz `PITCH 1.2`" ou "admin marca como `PITCH 1.2`"
+     - Em vez de "no HTML da página" → "na página do funil" ou "na própria página"
+   - Itens típicos (a ordem é essa):
+     - `✅ Pitch: <X.Y> (<nome>) — URL da LP diz <termo> e nome no admin diz <termo>` (se sinal autoritativo) OU `— preços $A/$B/$C` (sem sinal)
+     - `✅ Checkouts da LP: coerentes com Pitch <X.Y> ($A / $B / $C)`
+     - `✅ Funil: <N.N> (<nome>)`
+     - `❌ Estrutura do funil: <o que falta/sobra>` (só se houver problema; se tá completa, virar `✅ Estrutura do funil: completa (upsell 1 + downsell 1 + downsell 2)`)
+     - `✅ Upsell 1: X/X variants batem com catálogo`
+     - `⚠️ Downsell N: não catalogado — extraído pra registro` (quando aplicável)
+     - `✅ Elementos checkout: timer Xmin · buyers A-B · exit popup Z% (idênticos)` ou `❌ ... (divergem entre checkouts: ...)`
+   - **Não usar `---` separador entre o cabeçalho e a lista** — a lista vem direto, dá visual mais limpo.
+
+3. **Seção `## Front e precificação`** — UMA subseção por funil (`### FUNIL A — entrada: <qtd> bottle(s) / $<total>`). Dentro: lista indentada com 2 espaços, uma linha por etapa:
+   ```
+     <status> <Nome completo da etapa>: <qtd> · $<total> · $<por bottle>/un  (nota opcional entre parênteses)
+   ```
+   - Nomenclatura obrigatória (`Upsell 1 - C (front de 6): 12 bottles`), nunca abreviar.
+   - Indentar com 2 espaços antes do `✅/❌/⚠️`.
+   - Etapas AUSENTES viram linha com `❌ <Nome>: AUSENTE` (sem números).
+   - Notas entre parênteses só quando precisa de contexto curto (ex: "(não catalogado)"). Sem nota em etapas ✅ sem ressalva.
+
+4. **Seção `## Ações`** — bullets curtos. `🔴` pra ❌, `🟡` pra ⚠️. Cada bullet uma linha, sem detalhamento extra. Se tudo ✅, escrever "Nenhuma ação pendente — pode subir."
+
+**O que NÃO entra no relatório:**
+- Tabela de "Verdict" / "16 checks" — toda a informação dos checks já tá implícita nos itens de status ou nas linhas do funil.
+- Seção "Detalhamento dos pontos flagados" — toda explicação cabe na evidência inline do item de status. Se não cabe, encolha o achado.
+- Seção "Tabela da LP" separada — os preços da LP já saem indiretamente do Upsell 1 e dos preços de entrada dos funis.
+- Seção "Anexo: estrutura completa" — eliminada. OfferCodes e URLs só entram se forem essenciais; em geral o usuário não precisa.
+- Seção "Elementos ativos no checkout" separada — já tá no status geral em uma linha.
+
+**Princípios do formato:**
+- **Uma linha por achado.** Se precisa de mais de uma linha, encolheu mal.
+- **Sem separadores `---` entre seções.** Apenas o título `##` separa.
+- **Sem tabelas Markdown no corpo** — listas com status na frente.
+- **Linguagem direta.** Evidência inline em `code` (slug, payload, termos) é ok porque cabe na linha — não é prosa.
+- **Quem bate o olho no status geral + ações já sabe se sobe ou não.**
 
 ### ⚠️ Regras de formatação das tabelas Markdown
 
@@ -274,14 +327,18 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 4. **Outlier de preço por bottle** — identificar a oferta com o MENOR e a com o MAIOR preço por bottle do funil inteiro. Sempre listar ambas com comentário "intencional?". Ajuda a pegar erros de digitação no admin.
 5. **Nomes de nós copiados sem renomear** — comparar o sufixo do nome de cada nó (UPSELL 1 - X, DOWN1 DO UP1 - X) com a letra do funil em que está. Se funil B tem nó chamado "...- A", flagar como funil clonado.
 6. **Upsell e downsell com mesmo total** — ex.: Upsell 6-bottle $147 e Downsell 3+1 FREE $147. Flagar pra confirmar se é A/B teste ou bug.
-7. **Preço de upsell var.3 == preço da entrada do funil** — comum em funis "leva mais N pelo mesmo valor", mas sempre flagar pra confirmar intenção.
+7. **Preço de upsell var.3 == preço da entrada do funil** — comum em funis "leva mais N pelo mesmo valor". **Só flagar se o funil NÃO estiver no catálogo cadastrado** ou se o valor bater com a entrada mas não bater com o catálogo. Quando bate certinho com o catálogo do funil (ex: Funil 8.0 — U1.3 do funil C = 6 × $49 = $294 = entrada), é comportamento esperado e NÃO entra no relatório.
 8. **% de desconto declarado bate com (1 - unit/original)?** — Pagamerican guarda `priceDiscountPercentage` mas o valor é editado manualmente; recalcular e comparar.
 9. **Pack "X + Y FREE"** — sempre considerar `total_bottles = X + Y` ao calcular por bottle, não só X.
-10. **Per-bottle exibido vs. calculado** — a página do funil mostra `TODAY: $X per bottle` mas pode ter sido arredondado. Sempre comparar com `total ÷ qtd`. Ex.: $147 ÷ 4 = $36.75/un, mas página mostrou "$37 per bottle".
+10. **Per-bottle exibido vs. calculado** — a página do funil mostra `TODAY: $X per bottle` mas pode ter sido arredondado. Comparar com `total ÷ qtd`. **Ignorar arredondamentos** (diferença ≤ $1 em qualquer direção — ex.: $24.50 real exibido como $24 ou $25 é tolerado e NÃO entra no relatório). Só flagar quando a diferença for ≥ $2 (sinal de erro real de copy, não arredondamento).
 11. **Headline "U$X Discount" vs. desconto real calculado** — o número no headline grande (`<span class="discount-highlight">U$80 Discount</span>`) é texto manual e pode estar defasado. Comparar com `(normally × qtd) - total` e flagar.
 12. **"De" presente em uns upsells e ausente em outros do mesmo funil** — inconsistência visual.
 13. **Elementos ativos do checkout** — confirmar presença/valor de timer, exit popup (% off), live buyers count nos 3 checkouts da LP. Se diferente entre eles, flagar.
-14. **Coerência Pitch 1.2 vs. 3.2 (presença/ausência do quiz)** — quando os preços batem com 1.2/3.2 (front 1 bottle $89 + 3×$69 + 6×$49), os dois pitches são indistinguíveis pelo preço. **Sempre flagar pedindo pro usuário confirmar:** "Esta LP deveria rodar com quiz (Pitch 3.2) ou sem quiz (Pitch 1.2)?". Cerbero não tenta detectar o quiz automaticamente — o usuário confirma na hora se a presença/ausência do quiz na LP bate com o pitch que o time queria rodar. Esta flag captura erros do tipo "rodou sem quiz mas era pra ser 3.2" e vice-versa.
+14. **Coerência Pitch 1.2 vs. 3.2 (presença/ausência do quiz)** — quando os preços batem com 1.2/3.2 (front 1 bottle $89 + 3×$69 + 6×$49), os dois pitches são indistinguíveis pelos preços isolados. Antes de flagar, **procurar sinais autoritativos**:
+    - **Slug da URL da LP** contém `semquiz` / `comquiz` / `quiz`? → usar como autoridade.
+    - **Nome do checkout no payload Pagamerican** (`"name":"...PITCH X.Y..."`) cita pitch explicitamente? → usar como autoridade.
+    - Se **qualquer** dos dois sinais identifica o pitch, **não flagar** — reportar Pitch 1.2 ou 3.2 confirmado e listar em ✅ Sanity checks com a citação do sinal (ex: "Pitch 1.2 confirmado — slug `semquiz` + payload `PITCH 1.2`").
+    - **Só flagar como ambiguidade** quando NENHUM dos dois sinais existe — aí sim pedir pro usuário confirmar manualmente "Esta LP deveria rodar com quiz ou sem?". Esta flag captura erros do tipo "rodou sem quiz mas era pra ser 3.2" e vice-versa.
 15. **Pitch não catalogado** — se os preços/qtd dos 3 botões da LP não baterem com nenhum pitch do catálogo (1.2 / 3.2 / 5.1), **não presuma nada**. Reporte: "🚩 Pitch não catalogado — preços encontrados: [lista]. Não bate com 1.2 / 3.2 / 5.1. Pode ser: (a) erro de digitação no admin, (b) preço residual de versão antiga, ou (c) pitch novo a cadastrar. Confirmar com o time antes de subir."
 16. **Funil não catalogado** — se os preços/qtd de qualquer etapa do funil (upsell/downsell) não baterem com nenhum funil cadastrado no catálogo (atualmente: Funil 8.0), **não presuma**. Reporte: "🚩 Funil não catalogado — etapas encontradas: [lista]. Não bate com Funil 8.0 (diferença: [qual]). Pode ser: (a) erro de copy/admin; (b) funil novo a cadastrar. Verificar com o time."
 
