@@ -7,6 +7,16 @@ description: Audita uma VSL/LP e seus checkouts no Pagamerican (3 botões + funi
 
 Skill para auditar VSLs com checkouts no Pagamerican.app. Em vez de acelerar o vídeo em 2x pra ver os preços e clicar em cada botão manualmente, esta skill puxa o HTML cru das páginas e extrai os preços direto do payload do Next.js (RSC), incluindo as etapas do funil que só apareceriam após "Iniciar simulação de compra" com `?pag_test_4=true`.
 
+## Saudação ao ativar a skill
+
+Quando o usuário invocar `/Cerbero` **sem URL** no comando (ex: digita só `/Cerbero` ou `/Cerbero` seguido de pergunta sem URL), responder **exatamente** com a mensagem:
+
+> Envie a URL do funil a ser auditado.
+
+Sem mais nada — sem explicação extra, sem listar capacidades, sem perguntar mais nada. O usuário já sabe o que a skill faz.
+
+Se o usuário invocar `/Cerbero <URL>` (URL já presente na mensagem), pular essa saudação e iniciar o procedimento de auditoria direto.
+
 ## Quando usar
 
 - Usuário cola uma URL de LP (geralmente `mabrai.com/...` ou domínio similar) e pede pra "checar a oferta", "validar os preços", "ver se está certo", "conferir o funil".
