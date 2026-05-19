@@ -1,9 +1,9 @@
 ---
-name: cerbero
+name: Cerbero
 description: Audita uma VSL/LP e seus checkouts no Pagamerican (3 botões + funil de upsell/downsell) sem precisar assistir o vídeo nem comprar. Extrai preço, preço por bottle, valor "De", "You save" e % de desconto de cada oferta e flagra divergências.
 ---
 
-# cerbero — Auditor de Ofertas Pagamerican
+# Cerbero — Auditor de Ofertas Pagamerican
 
 Skill para auditar VSLs com checkouts no Pagamerican.app. Em vez de acelerar o vídeo em 2x pra ver os preços e clicar em cada botão manualmente, esta skill puxa o HTML cru das páginas e extrai os preços direto do payload do Next.js (RSC), incluindo as etapas do funil que só apareceriam após "Iniciar simulação de compra" com `?pag_test_4=true`.
 
@@ -123,7 +123,7 @@ Uma tabela por funil, no formato:
 ⚠️ **Obrigatório em toda execução**: ao final da análise, salvar um arquivo Markdown completo em:
 
 ```
-C:\Users\bbism\Documents\cerbero\reports\<slug-da-lp>-<YYYY-MM-DD>.md
+C:\Users\bbism\Documents\Cerbero\reports\<slug-da-lp>-<YYYY-MM-DD>.md
 ```
 
 - `<slug-da-lp>` = último segmento do path da URL (ex.: `ztes21-fpnp-maxbrai21-prodmaxbra21-caps-pit12-utm-leand`)
@@ -205,7 +205,7 @@ A operação roda **vários pitches** (estruturas de oferta da LP) testados em A
 
 ## Funis de Upsell/Downsell (catálogo)
 
-Além do pitch da LP, cerbero também deve identificar **qual funil de upsell/downsell** o cliente entra ao comprar, comparando os preços/qtd de cada etapa do funil contra o catálogo abaixo. Reportar no cabeçalho do relatório como **"Funil utilizado"**.
+Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/downsell** o cliente entra ao comprar, comparando os preços/qtd de cada etapa do funil contra o catálogo abaixo. Reportar no cabeçalho do relatório como **"Funil utilizado"**.
 
 ### Funil 8.0 — EMAGRECIMENTO
 

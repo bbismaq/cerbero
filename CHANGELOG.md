@@ -1,13 +1,17 @@
 # Changelog
 
+## [0.2.2] — 2026-05-19
+
+- Nome da skill voltou pra `Cerbero` (com C maiúsculo) em frontmatter, headings, slash command, paths e install scripts. Reverte a padronização lowercase da 0.2.1.
+
 ## [0.2.1] — 2026-05-19
 
 - Nome da skill padronizado em lowercase: `Cerbero` → `cerbero` (frontmatter, headings, slash command, paths e install scripts).
 
 ## [0.2.0] — 2026-05-19
 
-- Renomeado de `Checagem-de-oferta` para `cerbero`.
-- Pasta de relatórios passou de `~/Documents/Check-Offer/reports/` para `~/Documents/cerbero/reports/`.
+- Renomeado de `Checagem-de-oferta` para `Cerbero`.
+- Pasta de relatórios passou de `~/Documents/Check-Offer/reports/` para `~/Documents/Cerbero/reports/`.
 
 ## [0.1.0] — 2026-05-15
 
@@ -30,7 +34,7 @@ Versão inicial.
   - D2 mais caro que D1
   - Nomes de nós clonados sem renomear
   - Elementos ativos do checkout (timer, exit popup, live buyers)
-- Gera relatório `.md` em `~/Documents/cerbero/reports/<slug>-<data>.md` ao final de toda execução.
+- Gera relatório `.md` em `~/Documents/Cerbero/reports/<slug>-<data>.md` ao final de toda execução.
 - Tabelas com no máximo 6 colunas + alinhamento Markdown apropriado pra render limpo em qualquer viewer.
 
 ### Limitações

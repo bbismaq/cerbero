@@ -1,12 +1,12 @@
-# cerbero — instalador Windows
+# Cerbero — instalador Windows
 # Uso: .\install.ps1
 
 $ErrorActionPreference = "Stop"
 
 $skillSrc = Join-Path $PSScriptRoot "SKILL.md"
-$skillDestDir = Join-Path $env:USERPROFILE ".claude\skills\cerbero"
+$skillDestDir = Join-Path $env:USERPROFILE ".claude\skills\Cerbero"
 $skillDest = Join-Path $skillDestDir "SKILL.md"
-$reportsDir = Join-Path $env:USERPROFILE "Documents\cerbero\reports"
+$reportsDir = Join-Path $env:USERPROFILE "Documents\Cerbero\reports"
 
 if (-not (Test-Path $skillSrc)) {
     Write-Host "ERRO: SKILL.md nao encontrado em $skillSrc" -ForegroundColor Red
@@ -14,7 +14,7 @@ if (-not (Test-Path $skillSrc)) {
     exit 1
 }
 
-Write-Host "Instalando skill cerbero..."
+Write-Host "Instalando skill Cerbero..."
 
 New-Item -ItemType Directory -Force -Path $skillDestDir | Out-Null
 Copy-Item -Force $skillSrc $skillDest
@@ -27,5 +27,5 @@ Write-Host ""
 Write-Host "Instalacao concluida." -ForegroundColor Green
 Write-Host "Proximos passos:" -ForegroundColor Yellow
 Write-Host "  1. Reinicie o Claude Code (skills sao carregadas no boot)."
-Write-Host "  2. Digite /cerbero <URL da LP> para auditar uma oferta."
+Write-Host "  2. Digite /Cerbero <URL da LP> para auditar uma oferta."
 Write-Host "  3. Relatorios serao salvos em: $reportsDir"
