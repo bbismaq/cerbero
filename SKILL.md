@@ -320,6 +320,27 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 - "$/frasco" é calculado sobre o **total de bottles incluindo os FREE** ($87 ÷ 3 = $29; $261 ÷ 9 = $29). Isso conecta com o check #9 (Pack "X + Y FREE") — usar `total_bottles = X + Y`.
 - Downsell 1 deste funil é em **vídeo** (página `(página com vídeo)` na planilha). Cerbero deve confirmar que a URL do downsell renderiza vídeo, não só copy estática.
 
+#### Downsell 2
+
+> ⚠️ **Mesma estrutura do Downsell 1.** Variante A serve dois fronts (1 e 3); variante B serve o Front 6.
+
+**Downsell 2-A** (cliente veio do FRONT 01 ou FRONT 03)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 1 bottle | **$49** | **$49** |
+
+**Downsell 2-B** (cliente veio do FRONT 06)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 3 bottles | **$39** | **$117** |
+
+**Notas sobre o Downsell 2 do Funil 8.0:**
+- Downsell 2 não tem opção "X+Y FREE" — é oferta única por variante.
+- A variante A oferece o menor pacote possível (1 unidade a $49); B oferece 3 unidades a $39/und.
+- Conecta com o check #2 (Downsell 2 mais caro que Downsell 1): D2-A ($49) > D1-A por bottle ($29 ou $39) ✓ esperado; D2-B ($39/und) ≤ D1-B ($29 incluindo FREE) → flagar conforme check #2 se necessário.
+
 ### Como identificar o funil
 
 1. Após mapear o funil (passo 5 do procedimento), liste todos os pares **(qtd × $/frasco × total)** de cada etapa.
