@@ -339,7 +339,7 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 **Notas sobre o Downsell 2 do Funil 8.0:**
 - Downsell 2 não tem opção "X+Y FREE" — é oferta única por variante.
 - A variante A oferece o menor pacote possível (1 unidade a $49); B oferece 3 unidades a $39/und.
-- Conecta com o check #2 (Downsell 2 mais caro que Downsell 1): D2-A ($49) > D1-A por bottle ($29 ou $39) ✓ esperado; D2-B ($39/und) ≤ D1-B ($29 incluindo FREE) → flagar conforme check #2 se necessário.
+- **Relação D2 vs D1 — validada em 2026-05-20, NÃO flagar.** A estratégia é intencional: D2 ancora em preço futuro ($89 single-bottle list price, não em desconto vs D1), pra last-ditch AOV bump sem competir com a oferta de pack do D1. Trata-se de produto diferente (1 ou 3 unidades soltas vs pack agressivo do D1). Não disparar o check #2 quando os valores baterem com este catálogo.
 
 ### Como identificar o funil
 
@@ -353,7 +353,7 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 ⚠️ **Não pular nenhum**. Cada check abaixo precisa ser explicitamente avaliado e ou listado em "Flags" ou listado em "Sanity checks que passaram". Não omitir flags pra encurtar relatório.
 
 1. **`originalUnitPrice: 0` no payload do Pagamerican ≠ "vazio na página".** Em upsell/downsell isso é normal — o "De" está hardcoded na página do funil. Só flagar como problema se a PÁGINA DO FUNIL também não tiver `line-through` ou `NORMALLY`.
-2. **Downsell 2 mais caro (total ou por bottle) que Downsell 1** — pode ser intencional (D1 = melhor desconto, D2 = última tentativa com desconto menor), mas SEMPRE flagar pra confirmar.
+2. **Downsell 2 mais caro (total ou por bottle) que Downsell 1** — pode ser intencional (D1 = melhor desconto, D2 = última tentativa com desconto menor). **Exceção:** se o funil está cadastrado E os valores extraídos batem com o catálogo (ex.: Funil 8.0 D2-A / D2-B — validado), **não flagar**. Só flagar quando: (a) funil não cadastrado, OU (b) D2 ≠ catálogo, OU (c) o catálogo não documenta explicitamente a relação D2 vs D1.
 3. **Preço por bottle inconsistente entre packs** — ex.: se 6-bottle sai $49/un e 12-bottle sai $58/un, faltou desconto no pack maior.
 4. **Outlier de preço por bottle** — identificar a oferta com o MENOR e a com o MAIOR preço por bottle do funil inteiro. Sempre listar ambas com comentário "intencional?". Ajuda a pegar erros de digitação no admin.
 5. **Nomes de nós copiados sem renomear** — comparar o sufixo do nome de cada nó (UPSELL 1 - X, DOWN1 DO UP1 - X) com a letra do funil em que está. Se funil B tem nó chamado "...- A", flagar como funil clonado.
