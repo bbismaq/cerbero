@@ -378,6 +378,30 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 - Listar elementos ativos no checkout: `"type":"timer"`, `"type":"exit_popup"` (e o `discountPercentage` do popup), `"type":"live_buyers_count"` (e `min`/`max` de compradores fake).
 - Capturar `friendlyName` cru pra detectar typos no admin.
 
+## Linguagem do relatório
+
+Escreva o relatório em português conversacional, como se estivesse explicando
+pra um colega de marketing direto — **não** pra um colega de tech ou produção
+audiovisual. Termos como *hardcoded*, *B-roll*, *asset*, *pipeline*,
+*trade-off*, *legacy*, *deploy* confundem o usuário e o time dele.
+
+Traduções por padrão:
+- *hardcoded* → "gravado/colado dentro do próprio clipe"
+- *B-roll* → "clipe curto de apoio" ou "imagem de apoio"
+- *asset* → "arquivo"
+- *pipeline* → "fluxo" ou "processo"
+- *trade-off* → "contrapartida"
+- *legacy* → "antigo" ou "herdado"
+- *deploy* → "publicar" ou "subir"
+
+**Vocabulário do negócio (ok usar sem traduzir):** lead, oferta, pitch,
+front, upsell, downsell, escassez, packshot, lipsync, frame, checkout,
+LP, VSL, VTurb, Pagamerican. Também ok: nomes próprios de pitch/funil
+(Pitch 1.2, Funil 8.0, Front 03).
+
+Se precisar usar um termo técnico que não está na lista acima, explique
+entre parênteses na primeira ocorrência.
+
 ## Limitações conhecidas
 
 - Esta skill **não** simula o clique em "Iniciar simulação de compra". Os preços extraídos são os configurados no admin (mesma fonte que o front renderiza e o backend cobra), portanto confiáveis. Mas o **fluxo end-to-end** (botão funciona, redirect dispara, sessão é criada) não é validado. Se precisar disso, usar browser automation (Playwright).
