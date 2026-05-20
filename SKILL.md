@@ -102,18 +102,18 @@ Patterns a extrair:
 
 **Páginas de UPSELL** (3 variantes empilhadas na mesma página):
 ```
-TOTAL:\s*<span class="line-through[^>]*">\$([0-9]+)</span>   → "De"
-\$([0-9]+(?:\.[0-9]+)?)<                                      → "Por" (preço final do pack)
-YOU SAVE \$([0-9]+)                                           → "You save"
-\$([0-9]+(?:\.[0-9]+)?)/bottle                                → preço por bottle (renderizado, conferir)
+TOTAL:\s*<span class="line-through[^>]*">[$]([0-9]+)</span>   → "De"
+[$]([0-9]+(?:\.[0-9]+)?)<                                      → "Por" (preço final do pack)
+YOU SAVE [$]([0-9]+)                                           → "You save"
+[$]([0-9]+(?:\.[0-9]+)?)/bottle                                → preço por bottle (renderizado, conferir)
 ```
 
 **Páginas de DOWNSELL** (formato copy-heavy):
 ```
-<span class="discount-highlight">U\$([0-9]+) Discount\??</span>   → headline "U$X Discount"
-<span class="normal[- ]price">\$([0-9]+)[^<]*</span>             → "NORMALLY: $X per bottle"
-<span class="today[- ]price">\$([0-9]+(?:\.[0-9]+)?)[^<]*</span> → "TODAY: $X per bottle"
-class="total-price">\$([0-9]+) FOR ([0-9]+) BOTTLES?            → total + qtd (downsell 1 estilo "X+Y free")
+<span class="discount-highlight">U[$]([0-9]+) Discount\??</span>   → headline "U$X Discount"
+<span class="normal[- ]price">[$]([0-9]+)[^<]*</span>             → "NORMALLY: $X per bottle"
+<span class="today[- ]price">[$]([0-9]+(?:\.[0-9]+)?)[^<]*</span> → "TODAY: $X per bottle"
+class="total-price">[$]([0-9]+) FOR ([0-9]+) BOTTLES?            → total + qtd (downsell 1 estilo "X+Y free")
 ```
 
 ### 6. Cada botão da LP entra num FUNIL DIFERENTE
