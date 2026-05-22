@@ -298,7 +298,7 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 | 9 bottles | **$37** | **$333** |
 | 6 bottles | **$49** | **$294** |
 
-#### Downsell 1 (em vídeo)
+#### Downsell 1 do Upsell 1 (em vídeo)
 
 > ⚠️ **Estrutura diferente do Upsell 1.** O Downsell 1-A serve dois fronts (1 e 3) — não há variante separada por front. O Front 06 tem variante própria (B).
 
@@ -316,13 +316,13 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 | 6 + 3 FREE | **$29** | **$261** |
 | 4 bottles | **$39** | **$156** |
 
-**Notas sobre o Downsell 1 do Funil 8.0:**
+**Notas sobre o Downsell 1 do Upsell 1 do Funil 8.0:**
 - "$/frasco" é calculado sobre o **total de bottles incluindo os FREE** ($87 ÷ 3 = $29; $261 ÷ 9 = $29). Isso conecta com o check #9 (Pack "X + Y FREE") — usar `total_bottles = X + Y`.
-- Downsell 1 deste funil é em **vídeo** (página `(página com vídeo)` na planilha). Cerbero deve confirmar que a URL do downsell renderiza vídeo, não só copy estática.
+- Downsell 1 do Upsell 1 deste funil é em **vídeo** (página `(página com vídeo)` na planilha). Cerbero deve confirmar que a URL do downsell renderiza vídeo, não só copy estática.
 
-#### Downsell 2
+#### Downsell 2 do Upsell 1
 
-> ⚠️ **Mesma estrutura do Downsell 1.** Variante A serve dois fronts (1 e 3); variante B serve o Front 6.
+> ⚠️ **Mesma estrutura do Downsell 1 do Upsell 1.** Variante A serve dois fronts (1 e 3); variante B serve o Front 6.
 
 **Downsell 2-A** (cliente veio do FRONT 01 ou FRONT 03)
 
@@ -336,10 +336,47 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 |:--|:--:|:--:|
 | 3 bottles | **$39** | **$117** |
 
-**Notas sobre o Downsell 2 do Funil 8.0:**
-- Downsell 2 não tem opção "X+Y FREE" — é oferta única por variante.
+**Notas sobre o Downsell 2 do Upsell 1 do Funil 8.0:**
+- Downsell 2 do Upsell 1 não tem opção "X+Y FREE" — é oferta única por variante.
 - A variante A oferece o menor pacote possível (1 unidade a $49); B oferece 3 unidades a $39/und.
-- **Relação D2 vs D1 — validada em 2026-05-20, NÃO flagar.** A estratégia é intencional: D2 ancora em preço futuro ($89 single-bottle list price, não em desconto vs D1), pra last-ditch AOV bump sem competir com a oferta de pack do D1. Trata-se de produto diferente (1 ou 3 unidades soltas vs pack agressivo do D1). Não disparar o check #2 quando os valores baterem com este catálogo.
+- **Relação D2 vs D1 do Upsell 1 — validada em 2026-05-20, NÃO flagar.** A estratégia é intencional: D2 ancora em preço futuro ($89 single-bottle list price, não em desconto vs D1), pra last-ditch AOV bump sem competir com a oferta de pack do D1. Trata-se de produto diferente (1 ou 3 unidades soltas vs pack agressivo do D1). Não disparar o check #2 quando os valores baterem com este catálogo.
+
+#### Upsell 2
+
+> ⚠️ **Estrutura por front.** Variante A serve o Front 1; variante B serve Fronts 3 e 6 com os mesmos preços.
+
+**Upsell 2-A** (cliente veio do FRONT 01)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 9 bottles | **$16** | **$144** |
+| 6 bottles | **$17** | **$99** |
+| 2 bottles | **$24** | **$48** |
+
+**Upsell 2-B** (cliente veio do FRONT 03 ou FRONT 06)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 12 bottles | **$19** | **$228** |
+| 6 bottles | **$29** | **$174** |
+| 3 bottles | **$33** | **$99** |
+
+**Notas sobre o Upsell 2 do Funil 8.0:**
+- Mesmo padrão de arredondamento do Upsell 1: o `$/frasco` cadastrado é arredondado pra cima; o `total` é o valor real cobrado. Ex.: Upsell 2-A 6 bottles cadastrado como $17/und × 6 = $102 nominal, mas total real é $99 ($16,50/und efetivo). Cerbero deve usar o `total` extraído como fonte de verdade pro check de preço.
+- Upsell 2-B atende dois fronts (3 e 6) com os **mesmos preços**. Não há variante separada por front pra esses dois casos.
+
+#### Downsell 1 do Upsell 2
+
+> ⚠️ **Universal — uma única variante atende todos os fronts (1, 3 e 6).**
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 3 bottles | **$39** | **$117** |
+
+**Notas sobre o Downsell 1 do Upsell 2 do Funil 8.0:**
+- Não há variante por front — é a mesma oferta para FRONT 01, FRONT 03 e FRONT 06.
+- Preço/und e total idênticos ao Downsell 2-B do Upsell 1 (3 bottles @ $39 = $117), mas o contexto é diferente: este é último degrau após Upsell 2 ser recusado.
+- **Relação D1 do Upsell 2 vs D1/D2 do Upsell 1 — NÃO flagar pelo check #2.** Estes são funis paralelos disparados por etapas diferentes (Upsell 2 vs Upsell 1), não a mesma sequência. Comparação direta não se aplica.
 
 ### Como identificar o funil
 
