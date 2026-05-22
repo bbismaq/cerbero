@@ -148,8 +148,10 @@ Onde `front de X` é a quantidade que o lead comprou na LP pra entrar nesse funi
 ⚠️ **Obrigatório em toda execução**: ao final da análise, salvar um arquivo Markdown completo em:
 
 ```
-C:\Users\bbism\Documents\Cerbero\reports\<slug-da-lp>-<YYYY-MM-DD>.md
+C:\Users\bbism\OneDrive\Documentos\Projetos\Cerbero\reports\<slug-da-lp>-<YYYY-MM-DD>.md
 ```
+
+(Customização local deste usuário — a SKILL.md do repositório no GitHub mantém `~/Documents/Cerbero/reports/` como padrão pra equipe.)
 
 - `<slug-da-lp>` = último segmento do path da URL (ex.: `ztes21-fpnp-maxbrai21-prodmaxbra21-caps-pit12-utm-leand`)
 - `<YYYY-MM-DD>` = data atual
@@ -247,7 +249,7 @@ A operação roda **vários pitches** (estruturas de oferta da LP) testados em A
 
 ⚠️ **Pelos preços, 1.2 e 3.2 são indistinguíveis.** O que diferencia é a **presença do quiz na LP**. Cerbero detecta pitch pelo preço (que é igual nos dois) — então quando bater 1 bottle $89, **reporte como "Pitch 1.2 ou 3.2"** no cabeçalho e abra flag pedindo pro usuário confirmar se a LP deveria ter quiz ou não (ver check #14).
 
-### Pitch 5.1 — Afiliação BHEver e Instituto X
+### Pitch 5.1 — Afiliação BHEver
 
 | Front | Preço/bottle | Frete |
 |:--|:--:|:--|
@@ -255,14 +257,27 @@ A operação roda **vários pitches** (estruturas de oferta da LP) testados em A
 | **3 bottles** | **$69** | Grátis |
 | **6 bottles** | **$49** | Grátis |
 
-**Assinatura:** front menor é **2 bottles** (não 1) com frete (~$19,99). Usado em afiliações BHEver e Instituto X.
+**Assinatura:** front menor é **2 bottles** (não 1) com frete (~$19,99). Usado em afiliação BHEver.
+
+### Pitch 5.2 — Afiliação Instituto X
+
+| Front | Preço/bottle | Frete |
+|:--|:--:|:--|
+| **2 bottles** | **$79** | + **$9,99** de frete |
+| **3 bottles** | **$69** | Grátis |
+| **6 bottles** | **$49** | Grátis |
+
+**Assinatura:** preços por bottle **idênticos ao 5.1** — única diferença é o **frete do front de 2 bottles**, que aqui é **$9,99** (em vez de $19,99 do 5.1). Usado em afiliação Instituto X.
+
+⚠️ **Pelos preços por bottle, 5.1 e 5.2 são indistinguíveis.** A diferença é exclusivamente o **valor do frete do front de 2 bottles** ($19,99 = 5.1; $9,99 = 5.2). Cerbero detecta isso pela extração do `shipping` do botão do front no admin/checkout — então quando bater 2 bottles $79, sempre cruzar com o valor real do frete antes de reportar 5.1 ou 5.2.
 
 ### Como identificar o pitch pelos preços extraídos
 
 1. Olhe os 3 botões da LP (passo 2 do procedimento) e veja qual é o front menor (em qtd de bottles):
    - Front 1 bottle ($89) + frete → **Pitch 1.2 ou 3.2** (ambíguo — flag #14)
-   - Front 2 bottles ($79) + frete → **Pitch 5.1**
-2. Os preços de 3 ($69) e 6 ($49) são iguais em 1.2 / 3.2 / 5.1 — não diferenciam.
+   - Front 2 bottles ($79) + frete **$19,99** → **Pitch 5.1** (BHEver)
+   - Front 2 bottles ($79) + frete **$9,99** → **Pitch 5.2** (Instituto X)
+2. Os preços de 3 ($69) e 6 ($49) são iguais em 1.2 / 3.2 / 5.1 / 5.2 — não diferenciam.
 3. Se os preços **não baterem com nenhum pitch**, **não presuma nada** — sinalize **"Pitch não catalogado"** e abra red flag (ver check #15).
 4. Sempre inclua **"Pitch utilizado"** no cabeçalho do relatório (junto de URL, data, produto).
 
@@ -407,7 +422,7 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
     - **Nome do checkout no payload Pagamerican** (`"name":"...PITCH X.Y..."`) cita pitch explicitamente? → usar como autoridade.
     - Se **qualquer** dos dois sinais identifica o pitch, **não flagar** — reportar Pitch 1.2 ou 3.2 confirmado e listar em ✅ Sanity checks com a citação do sinal (ex: "Pitch 1.2 confirmado — slug `semquiz` + payload `PITCH 1.2`").
     - **Só flagar como ambiguidade** quando NENHUM dos dois sinais existe — aí sim pedir pro usuário confirmar manualmente "Esta LP deveria rodar com quiz ou sem?". Esta flag captura erros do tipo "rodou sem quiz mas era pra ser 3.2" e vice-versa.
-15. **Pitch não catalogado** — se os preços/qtd dos 3 botões da LP não baterem com nenhum pitch do catálogo (1.2 / 3.2 / 5.1), **não presuma nada**. Reporte: "🚩 Pitch não catalogado — preços encontrados: [lista]. Não bate com 1.2 / 3.2 / 5.1. Pode ser: (a) erro de digitação no admin, (b) preço residual de versão antiga, ou (c) pitch novo a cadastrar. Confirmar com o time antes de subir."
+15. **Pitch não catalogado** — se os preços/qtd dos 3 botões da LP não baterem com nenhum pitch do catálogo (1.2 / 3.2 / 5.1 / 5.2), **não presuma nada**. Reporte: "🚩 Pitch não catalogado — preços encontrados: [lista]. Não bate com 1.2 / 3.2 / 5.1 / 5.2. Pode ser: (a) erro de digitação no admin, (b) preço residual de versão antiga, ou (c) pitch novo a cadastrar. Confirmar com o time antes de subir."
 16. **Funil não catalogado** — se os preços/qtd de qualquer etapa do funil (upsell/downsell) não baterem com nenhum funil cadastrado no catálogo (atualmente: Funil 8.0), **não presuma**. Reporte: "🚩 Funil não catalogado — etapas encontradas: [lista]. Não bate com Funil 8.0 (diferença: [qual]). Pode ser: (a) erro de copy/admin; (b) funil novo a cadastrar. Verificar com o time."
 
 ## Outputs auxiliares (opcionais)
