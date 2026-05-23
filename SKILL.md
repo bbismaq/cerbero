@@ -196,6 +196,14 @@ O conteúdo do .md DEVE ter, em ordem:
 
 4. **Seção `## Ações`** — bullets curtos. `🔴` pra ❌, `🟡` pra ⚠️. Cada bullet uma linha, sem detalhamento extra. Se tudo ✅, escrever "Nenhuma ação pendente — pode subir."
 
+   ⚠️ **Checklist obrigatória antes de escrever "pode subir":** percorrer mentalmente os 4 pilares de execução e confirmar que cada um foi explicitamente avaliado (não basta "não encontrei nada errado" — tem que ter CHECADO):
+   1. **Identificação correta** — Pitch e Funil foram identificados contra o catálogo? (checks #14, #15, #16)
+   2. **Math interna** — line-through, "you save", % de desconto, preço/bottle batem em TODAS as variantes extraídas? (checks #8, #10, #11)
+   3. **Completude estrutural** — TODAS as etapas esperadas do funil identificado estão presentes em CADA funil (A/B/C)? (check #17)
+   4. **Elementos do checkout** — timer, exit popup, live buyers count presentes e consistentes entre os 3 checkouts da LP? (check #13)
+
+   Se algum dos 4 não foi avaliado, **não liberar**. Se algum falhou, listar em 🔴. Liberar "pode subir" sem ter rodado os 4 é o caminho mais comum pra esconder achado real — especialmente o pilar 3 (estrutura), que é fácil de esquecer porque o instinto é só validar o que aparece no payload e dar OK.
+
 **O que NÃO entra no relatório:**
 - Tabela de "Verdict" / "16 checks" — toda a informação dos checks já tá implícita nos itens de status ou nas linhas do funil.
 - Seção "Detalhamento dos pontos flagados" — toda explicação cabe na evidência inline do item de status. Se não cabe, encolha o achado.
@@ -424,6 +432,7 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
     - **Só flagar como ambiguidade** quando NENHUM dos dois sinais existe — aí sim pedir pro usuário confirmar manualmente "Esta LP deveria rodar com quiz ou sem?". Esta flag captura erros do tipo "rodou sem quiz mas era pra ser 3.2" e vice-versa.
 15. **Pitch não catalogado** — se os preços/qtd dos 3 botões da LP não baterem com nenhum pitch do catálogo (1.2 / 3.2 / 5.1 / 5.2), **não presuma nada**. Reporte: "🚩 Pitch não catalogado — preços encontrados: [lista]. Não bate com 1.2 / 3.2 / 5.1 / 5.2. Pode ser: (a) erro de digitação no admin, (b) preço residual de versão antiga, ou (c) pitch novo a cadastrar. Confirmar com o time antes de subir."
 16. **Funil não catalogado** — se os preços/qtd de qualquer etapa do funil (upsell/downsell) não baterem com nenhum funil cadastrado no catálogo (atualmente: Funil 8.0), **não presuma**. Reporte: "🚩 Funil não catalogado — etapas encontradas: [lista]. Não bate com Funil 8.0 (diferença: [qual]). Pode ser: (a) erro de copy/admin; (b) funil novo a cadastrar. Verificar com o time."
+17. **Completude estrutural do funil** — uma vez identificado qual funil está rodando (ex: Funil 8.0), comparar a estrutura extraída do payload **etapa por etapa** contra a estrutura catalogada. Listar explicitamente cada etapa esperada e marcar PRESENTE ou AUSENTE. Qualquer ausência é 🔴 obrigatório em "Ações", mesmo que as etapas presentes estejam todas corretas. Exemplo Funil 8.0: deve ter Upsell 1 + Downsell 1 do Up1 + Downsell 2 do Up1 + Upsell 2 + Downsell 1 do Up2 em CADA funil (A/B/C). Se algum desses está ausente, o admin precisa cadastrar — funil incompleto deixa dinheiro na mesa. **Este check é independente dos checks de preço/math**: posso ter math perfeita nas etapas presentes E ainda assim o funil estar incompleto. Não dar "pode subir" antes de validar estrutura.
 
 ## Outputs auxiliares (opcionais)
 
