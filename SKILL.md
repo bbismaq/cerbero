@@ -22,6 +22,14 @@ Se o usuário invocar `/Cerbero <URL>` (URL já presente na mensagem), pular ess
 - Usuário cola uma URL de LP (geralmente `mabrai.com/...` ou domínio similar) e pede pra "checar a oferta", "validar os preços", "ver se está certo", "conferir o funil".
 - Usuário menciona "VSL", "upsell", "downsell", "funil de oferta", "Pagamerican", "pag_test_4".
 
+## Padrão de execução
+
+Quando o usuário envia **só a URL** (sem instrução específica do que revisar), executar o **fluxo completo**: auditoria de oferta (LP + funil completo, conforme "Procedimento" abaixo) **+** revisão da VSL nos últimos 30 minutos do vídeo (conforme "Procedimento VSL" abaixo).
+
+Quando o usuário envia URL **junto com um pedido específico** ("só revisa o funil", "só revisa a VSL", "revisa só os últimos 15 minutos", "checa só os preços"), respeitar o pedido — não executar o que não foi solicitado.
+
+Quando em dúvida sobre o escopo, perguntar antes de começar. Não presumir.
+
 ## O que extrair pra cada oferta
 
 ⚠️ **IMPORTANTE — duas fontes diferentes:**
@@ -182,10 +190,18 @@ O conteúdo do .md DEVE ter, em ordem:
      - `❌ Estrutura do funil: <o que falta/sobra>` (só se houver problema; se tá completa, virar `✅ Estrutura do funil: completa (upsell 1 + downsell 1 + downsell 2)`)
      - `✅ Upsell 1: X/X variants batem com catálogo`
      - `⚠️ Downsell N: não catalogado — extraído pra registro` (quando aplicável)
-     - `✅ Elementos checkout: timer Xmin · buyers A-B · exit popup Z% (idênticos)` ou `❌ ... (divergem entre checkouts: ...)`
+     - `✅ VSL: produto, formato e pitch falado batem com o checkout` (quando a Parte 1 foi executada — uma linha resumo apenas)
    - **Não usar `---` separador entre o cabeçalho e a lista** — a lista vem direto, dá visual mais limpo.
 
-3. **Seção `## Front e precificação`** — UMA subseção por funil (`### FUNIL A — entrada: <qtd> bottle(s) / $<total>`). Dentro: lista indentada com 2 espaços, uma linha por etapa:
+3. **Seção `## Parte 1 — Revisão da VSL`** — presente APENAS quando a VSL foi revisada (fluxo padrão ou pedido explícito do usuário). Logo abaixo do título, uma frase curta descrevendo o método (transcrição + frames + ferramentas usadas). Em seguida, subseções fixas, nesta ordem:
+   - `### Pitch praticado` — uma linha ✅/❌/⚠️ com o achado.
+   - `### Produto / label` — uma linha ✅/❌/⚠️ com achado + timestamps onde o packshot foi checado.
+   - `### Formato` — uma linha ✅/❌/⚠️ com achado + citação curta do que a voz fala + confirmação visual.
+   - `### Pontos de atenção da VSL` — lista de achados ⚠️/❌ (quando aplicável). Quando tudo certo, omitir a subseção inteira.
+
+   Linhas dentro de cada subseção: indentar com 2 espaços antes do ✅/❌/⚠️.
+
+4. **Seção `## Parte 2 — Revisão do Funil`** — UMA subseção por funil (`### FUNIL A — entrada: <qtd> bottle(s) / $<total>`). Dentro: lista indentada com 2 espaços, uma linha por etapa:
    ```
      <status> <Nome completo da etapa>: <qtd> · $<total> · $<por bottle>/un  (nota opcional entre parênteses)
    ```
@@ -194,22 +210,35 @@ O conteúdo do .md DEVE ter, em ordem:
    - Etapas AUSENTES viram linha com `❌ <Nome>: AUSENTE` (sem números).
    - Notas entre parênteses só quando precisa de contexto curto (ex: "(não catalogado)"). Sem nota em etapas ✅ sem ressalva.
 
-4. **Seção `## Ações`** — bullets curtos. `🔴` pra ❌, `🟡` pra ⚠️. Cada bullet uma linha, sem detalhamento extra. Se tudo ✅, escrever "Nenhuma ação pendente — pode subir."
+5. **Seção `## Checagem final`** — lista numerada simples (sem tabela) com 1 item por linha, cada item começa com ✅ / ❌ / ⚠️. Conteúdo: outcomes de alto nível que o usuário precisa decidir antes de subir. **NÃO listar checks internos** (math, elementos do checkout, divergência de âncora voz×checkout, bonus stack coerência). Exemplo:
+   ```
+   1. ✅ Pitch da LP bate com catálogo (Pitch 1.2)
+   2. ✅ Checkouts da LP — preços, frete e % de desconto coerentes com Pitch 1.2
+   3. ❌ Downsell 1 do UP1 — não configurado em nenhum dos 3 funis
+   4. ⚠️ VSL — formato (gotas líquidas) coerente entre voz e visual
+   ```
+   - ✅ = correto, sem ressalva; ❌ = errado, exige correção; ⚠️ = precisa conferência manual ou confirmação com o time.
+   - Itens da VSL aparecem APENAS quando a Parte 1 foi executada.
+
+6. **Seção `## Ações pendentes`** — bullets curtos. `🔴` pra ❌, `🟡` pra ⚠️. Cada bullet uma linha, sem detalhamento extra. Se tudo ✅, escrever "Nenhuma ação pendente — pode subir."
 
    ⚠️ **Checklist obrigatória antes de escrever "pode subir":** percorrer mentalmente os 4 pilares de execução e confirmar que cada um foi explicitamente avaliado (não basta "não encontrei nada errado" — tem que ter CHECADO):
-   1. **Identificação correta** — Pitch e Funil foram identificados contra o catálogo? (checks #14, #15, #16)
-   2. **Math interna** — line-through, "you save", % de desconto, preço/bottle batem em TODAS as variantes extraídas? (checks #8, #10, #11)
-   3. **Completude estrutural** — TODAS as etapas esperadas do funil identificado estão presentes em CADA funil (A/B/C)? (check #17)
-   4. **Elementos do checkout** — timer, exit popup, live buyers count presentes e consistentes entre os 3 checkouts da LP? (check #13)
+   1. **Identificação correta** — Pitch e Funil foram identificados contra o catálogo? (checks #14, #15, #16). **Surface no relatório.**
+   2. **Math interna** — line-through, "you save", % de desconto, preço/bottle batem em TODAS as variantes extraídas? (checks #8, #10, #11). **Validação interna — NÃO surface no relatório.** Se passou, está implícito no item "Upsell N — variants batem com catálogo" da Checagem final. Se falhou, surface como ❌ no item de etapa específico (`Upsell 1 - A 6 bottles: $114 ❌ preço por bottle inconsistente`).
+   3. **Completude estrutural** — TODAS as etapas esperadas do funil identificado estão presentes em CADA funil (A/B/C)? (check #17). **Surface no relatório.** Ausência vira ❌ obrigatório em "Ações pendentes" e item específico na Checagem final.
+   4. **Elementos do checkout** — timer, exit popup, live buyers count presentes e consistentes entre os 3 checkouts da LP? (check #13). **Validação interna — NÃO surface no relatório.** Só surface se houver divergência crítica entre os 3 checkouts (ex: timer presente em 2 mas ausente no 3º).
 
-   Se algum dos 4 não foi avaliado, **não liberar**. Se algum falhou, listar em 🔴. Liberar "pode subir" sem ter rodado os 4 é o caminho mais comum pra esconder achado real — especialmente o pilar 3 (estrutura), que é fácil de esquecer porque o instinto é só validar o que aparece no payload e dar OK.
+   Se algum dos 4 não foi avaliado, **não liberar**. Se algum falhou de modo crítico, listar em 🔴. Liberar "pode subir" sem ter rodado os 4 é o caminho mais comum pra esconder achado real — especialmente o pilar 3 (estrutura), que é fácil de esquecer porque o instinto é só validar o que aparece no payload e dar OK.
 
 **O que NÃO entra no relatório:**
 - Tabela de "Verdict" / "16 checks" — toda a informação dos checks já tá implícita nos itens de status ou nas linhas do funil.
 - Seção "Detalhamento dos pontos flagados" — toda explicação cabe na evidência inline do item de status. Se não cabe, encolha o achado.
 - Seção "Tabela da LP" separada — os preços da LP já saem indiretamente do Upsell 1 e dos preços de entrada dos funis.
 - Seção "Anexo: estrutura completa" — eliminada. OfferCodes e URLs só entram se forem essenciais; em geral o usuário não precisa.
-- Seção "Elementos ativos no checkout" separada — já tá no status geral em uma linha.
+- **Elementos do checkout** (timer, exit popup, live buyers count) — validar internamente como sanidade, **NÃO surface no relatório** (nem em seção própria, nem em linha do status geral).
+- **Cálculo de math interna dos upsells** (line-through "De" = $99/un × qtd; "You save" = De menos Por; % de desconto) — validar internamente, **NÃO listar no relatório**. Se a math estiver correta, o item "Upsell 1 — variants batem com catálogo" já cobre.
+- **Divergência de âncora "De" entre voz da VSL e checkout** (ex: voz fala "instead of $178" mas checkout mostra "De $99") — não-acionável, **NÃO entra no relatório**.
+- **Item de "Bonus stack coerente entre voz e visual"** — não-acionável, **NÃO entra no relatório**.
 
 **Princípios do formato:**
 - **Uma linha por achado.** Se precisa de mais de uma linha, encolheu mal.
@@ -230,6 +259,85 @@ Tabelas com 7+ colunas quebram visualmente em vários renderizadores (incluindo 
 - Cabeçalho com `:--` pra alinhar esquerda nas colunas de texto e `--:` pra alinhar direita nas colunas de número.
 
 Depois de salvar, **mostrar ao usuário o caminho do arquivo gerado** e um resumo (não o conteúdo completo — o conteúdo está no arquivo).
+
+## Procedimento VSL
+
+Executar quando o fluxo padrão estiver ativo (URL sem pedido específico) ou quando o usuário pedir revisão de VSL explicitamente. Janela default: **últimos 30 minutos** do vídeo.
+
+### V1. Capturar a URL do `.m3u8` da VSL
+
+Player VTurb geralmente exige clique pra disparar o stream. Em LPs com teste A/B, a variante de vídeo ativa só é decidida em tempo de execução pelo `player.js` — não dá pra extrair estaticamente do HTML. Usar script com browser headless:
+
+```powershell
+~/.claude/skills/cerbero/.venv/Scripts/python.exe `
+  ~/.claude/skills/cerbero/scripts/extract_m3u8.py `
+  --url "<URL_DA_LP>" `
+  --output "<caminho/m3u8.txt>"
+```
+
+O script abre a LP em Chromium headless (via Playwright), clica no player VTurb, escuta o tráfego de rede e captura a URL do `.m3u8` master da variante ATIVA. Output: arquivo texto com a URL.
+
+### V2. Baixar o stream HLS em mp4
+
+```powershell
+ffmpeg -y -i "<m3u8-url>" -c copy -bsf:a aac_adtstoasc "<output.mp4>"
+```
+
+Sem reencode (`-c copy`) — só remonta os segmentos `.ts` em mp4 único. Rápido.
+
+### V3. Transcrever os últimos 30min
+
+Reaproveita script da Sentinela (`transcribe.py` + venv com `faster-whisper`):
+
+```powershell
+~/.claude/skills/sentinela/.venv/Scripts/python.exe `
+  ~/.claude/skills/sentinela/scripts/transcribe.py `
+  --video "<video.mp4>" `
+  --start "30:00" --end "<fim do vídeo>" `
+  --output "<transcript.json>" `
+  --language en
+```
+
+### V4. Extrair frames a 0.5 fps (1 imagem a cada 2s)
+
+Reaproveita script da Sentinela (`extract_frames.py`):
+
+```powershell
+~/.claude/skills/sentinela/.venv/Scripts/python.exe `
+  ~/.claude/skills/sentinela/scripts/extract_frames.py `
+  --video "<video.mp4>" `
+  --start "30:00" --end "<fim do vídeo>" `
+  --fps 0.5 `
+  --output-dir "<frames-dir>"
+```
+
+A janela de cegueira fica em 2 segundos. Combinado com a transcrição completa (que é contínua, não amostrada), o ponto cego real fica muito pequeno — algo só passa despercebido se aparecer em tela por menos de 2s **e** não for falado.
+
+### V5. Revisar transcrição + frames contra o checkout
+
+Cruzar 3 eixos contra o que o Cerbero extraiu do checkout da LP:
+
+1. **Pitch praticado** — preços por bottle e quantidades citados na voz batem com o que o checkout cobra?
+2. **Produto / label** — nome do produto pronunciado e logo/packshot exibido em tela batem com o produto cadastrado no checkout? Procurar packshot antigo vazando em depoimentos ou FAQ (clipes reaproveitados frequentemente carregam imagem do produto anterior).
+3. **Formato** — voz cita o formato (gotas líquidas, cápsulas, pó, gomas) e o visual (frasco com conta-gotas, blister, sachê) confirma? Modo de uso falado bate com o formato visual?
+
+Para a revisão visual, **ler imagens estrategicamente**, não todas as 893 (pra janela de 30min). Amostrar:
+- Frame inicial (30:00) — confirmar começo da janela.
+- Momentos identificados na transcrição onde a voz cita preço, produto, formato ou packshot.
+- Frames espaçados a cada ~3min cobrindo todo o bloco, pra detectar packshot antigo vazando em depoimentos/FAQ.
+- Frame final pra confirmar fechamento.
+
+### Pontos a flagar na revisão da VSL
+
+- **Produto pronunciado ≠ produto no checkout** → 🔴 vermelho.
+- **Packshot antigo vazando em depoimento ou FAQ** → 🔴 vermelho.
+- **Formato falado ≠ formato visual** (ex: voz fala "gotas" mas packshot mostra cápsulas) → 🔴 vermelho.
+- **Pitch praticado na voz ≠ pitch do checkout** (ex: preços diferentes) → 🔴 vermelho.
+
+**O que NÃO flagar na revisão da VSL:**
+- Âncora "De" falada na voz ≠ "De" do checkout (ex: voz fala "instead of $178" mas checkout mostra "De $99") — não-acionável, não entra no relatório.
+- Bonus stack coerente entre voz e visual — não-acionável, não entra no relatório.
+- Badge de garantia (60-day etc) — não-acionável a menos que diverja explicitamente do checkout.
 
 ## Pitches da operação (catálogo)
 
