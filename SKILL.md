@@ -269,8 +269,8 @@ Executar quando o fluxo padrão estiver ativo (URL sem pedido específico) ou qu
 Player VTurb geralmente exige clique pra disparar o stream. Em LPs com teste A/B, a variante de vídeo ativa só é decidida em tempo de execução pelo `player.js` — não dá pra extrair estaticamente do HTML. Usar script com browser headless:
 
 ```powershell
-~/.claude/skills/cerbero/.venv/Scripts/python.exe `
-  ~/.claude/skills/cerbero/scripts/extract_m3u8.py `
+~/.claude/skills/Cerbero/.venv/Scripts/python.exe `
+  ~/.claude/skills/Cerbero/scripts/extract_m3u8.py `
   --url "<URL_DA_LP>" `
   --output "<caminho/m3u8.txt>"
 ```
@@ -573,8 +573,9 @@ entre parênteses na primeira ocorrência.
 
 ## Limitações conhecidas
 
-- Esta skill **não** simula o clique em "Iniciar simulação de compra". Os preços extraídos são os configurados no admin (mesma fonte que o front renderiza e o backend cobra), portanto confiáveis. Mas o **fluxo end-to-end** (botão funciona, redirect dispara, sessão é criada) não é validado. Se precisar disso, usar browser automation (Playwright).
+- O **fluxo end-to-end do checkout** (botão funciona, redirect dispara, sessão é criada) não é validado. Os preços extraídos são os configurados no admin (mesma fonte que o front renderiza e o backend cobra), portanto confiáveis.
 - Domínios das páginas de funil mudam por produto (ex.: `mabrn21fv.online`). Sempre extrair do payload, não chutar.
+- O script `extract_m3u8.py` depende do player ser VTurb (`vturb-smartplayer`). Se a operação trocar de player, o seletor de clique precisa ser ajustado — o erro fica explícito ("nao consegui clicar no player"), não silencioso.
 
 ## Exemplo de invocação
 

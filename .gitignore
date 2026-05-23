@@ -7,6 +7,10 @@ fnl_*.html
 lp.html
 vsl.html
 
+# Pastas locais de trabalho — não versionar
+downloads/
+work/
+
 # OS / editor
 .DS_Store
 Thumbs.db
