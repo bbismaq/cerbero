@@ -509,6 +509,60 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 - Preço/und e total idênticos ao Downsell 2-B do Upsell 1 (3 bottles @ $39 = $117), mas o contexto é diferente: este é último degrau após Upsell 2 ser recusado.
 - **Relação D1 do Upsell 2 vs D1/D2 do Upsell 1 — NÃO flagar pelo check #2.** Estes são funis paralelos disparados por etapas diferentes (Upsell 2 vs Upsell 1), não a mesma sequência. Comparação direta não se aplica.
 
+### Funil 8.1 — MEMORY LOSS
+
+> ⚠️ **Variação memory loss do 8.0.** Upsell 1 e Upsell 2 têm **preços idênticos ao Funil 8.0** (tabelas reproduzidas abaixo pra consulta self-contained). A diferença do 8.1 está nos **downsells**, específicos pra memory loss e **ainda NÃO catalogados** — cadastrar quando definidos. Por ora, só Upsell 1 e Upsell 2. Não auditar downsell do 8.1 contra este catálogo até serem cadastrados.
+
+#### Upsell 1
+
+**Upsell 1-A** (cliente veio do FRONT 01 — comprou 1 bottle)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 6 bottles | **$19** | **$114** |
+| 4 bottles | **$25** | **$98** |
+| 2 bottles | **$29** | **$58** |
+
+**Upsell 1-B** (cliente veio do FRONT 03 — comprou 3 bottles)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 12 bottles | **$17** | **$198** |
+| 9 bottles | **$19** | **$171** |
+| 6 bottles | **$25** | **$147** |
+
+**Upsell 1-C** (cliente veio do FRONT 06 — comprou 6 bottles)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 12 bottles | **$29** | **$348** |
+| 9 bottles | **$37** | **$333** |
+| 6 bottles | **$49** | **$294** |
+
+#### Upsell 2
+
+> ⚠️ **Estrutura por front.** Variante A serve o Front 1; variante B serve Fronts 3 e 6 com os mesmos preços.
+
+**Upsell 2-A** (cliente veio do FRONT 01)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 9 bottles | **$16** | **$144** |
+| 6 bottles | **$17** | **$99** |
+| 2 bottles | **$24** | **$48** |
+
+**Upsell 2-B** (cliente veio do FRONT 03 ou FRONT 06)
+
+| Qtd | $/frasco | Total |
+|:--|:--:|:--:|
+| 12 bottles | **$19** | **$228** |
+| 6 bottles | **$29** | **$174** |
+| 3 bottles | **$33** | **$99** |
+
+**Notas sobre o Funil 8.1:**
+- Mesmo padrão de arredondamento do 8.0: `$/frasco` cadastrado arredondado pra cima; `total` é o valor real cobrado. Cerbero usa o `total` extraído como fonte de verdade.
+- **Downsells do 8.1 ainda não catalogados.** Se aparecer downsell no funil 8.1, tratar pelo check #16 (funil/etapa não catalogada) até cadastro.
+
 ### Como identificar o funil
 
 1. Após mapear o funil (passo 5 do procedimento), liste todos os pares **(qtd × $/frasco × total)** de cada etapa.
