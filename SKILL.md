@@ -30,6 +30,8 @@ Quando o usuário envia URL **junto com um pedido específico** ("só revisa o f
 
 Quando em dúvida sobre o escopo, perguntar antes de começar. Não presumir.
 
+⚠️ **Metadado do usuário não é autorização pra reduzir escopo.** Se o usuário mandar a URL junto com produto/formato/pitch/funil declarados (ex: "produto: coco burn | formato: drops | pitch: 1.2 | funil 8.0"), isso é **contexto pra cruzar contra o que a auditoria descobrir**, não um substituto da Parte 1 ou Parte 2. Não pular VSL, não pular funil, não dar nada como pré-validado só porque o usuário mencionou — o trabalho do Cerbero é justamente checar se essas declarações batem com o que está rodando. Se for por algum motivo pular alguma etapa, **perguntar explicitamente antes de começar**, nunca decidir sozinho.
+
 ## O que extrair pra cada oferta
 
 ⚠️ **IMPORTANTE — duas fontes diferentes:**
@@ -343,23 +345,25 @@ Para a revisão visual, **ler imagens estrategicamente**, não todas as 893 (pra
 
 A operação roda **vários pitches** (estruturas de oferta da LP) testados em A/B pra encontrar a maior margem. Cerbero deve identificar qual pitch está rodando comparando os preços/qtd dos 3 botões da LP contra o catálogo abaixo e **reportar no cabeçalho do relatório**.
 
+⚠️ **Catálogo mascarado/ilegível → abrir o SKILL.md do disco antes de qualquer afirmação.** Se ao consultar o catálogo (Pitches OU Funis) você ver QUALQUER valor aparecendo como `****`, `<redacted>`, placeholder, célula em branco onde devia ter número, ou linha truncada — **parar imediatamente** e rodar `Read C:\Users\bbism\.claude\skills\Cerbero\SKILL.md` (ou o caminho equivalente da cópia de trabalho) pra ver os valores reais do arquivo. **Não inferir**, **não deduzir** "deve ser igual à variante vizinha", **não comparar com valores extraídos da auditoria** pra triangular o catálogo. Sintoma de "valor escondido" é gatilho obrigatório de Read — sem exceção. Inferir contra um catálogo ilegível foi a causa raiz de falsos ❌ em auditorias passadas (validado em 2026-05-28).
+
 ### Pitch 1.2 — Tradicional
 
 | Front | Preço/bottle | Frete |
 |:--|:--:|:--|
-| **1 bottle** | **$89** | + **$19** de frete |
-| **3 bottles** | **$69** | Grátis |
-| **6 bottles** | **$49** | Grátis |
+| 1 bottle | $89 | + $19 de frete |
+| 3 bottles | $69 | Grátis |
+| 6 bottles | $49 | Grátis |
 
-**Assinatura:** front de **1 bottle** com frete (~$19). LP **sem quiz** — fronts aparecem direto.
+**Assinatura:** front de 1 bottle com frete (~$19). LP **sem quiz** — fronts aparecem direto.
 
 ### Pitch 3.2 — Quiz
 
 | Front | Preço/bottle | Frete |
 |:--|:--:|:--|
-| **1 bottle** | **$89** | + **$19** de frete |
-| **3 bottles** | **$69** | Grátis |
-| **6 bottles** | **$49** | Grátis |
+| 1 bottle | $89 | + $19 de frete |
+| 3 bottles | $69 | Grátis |
+| 6 bottles | $49 | Grátis |
 
 **Assinatura:** preços **idênticos ao 1.2**. A diferença está na LP: tem um **quiz temporizado** antes dos fronts — as opções de compra só aparecem depois que o lead responde o questionário.
 
@@ -369,21 +373,21 @@ A operação roda **vários pitches** (estruturas de oferta da LP) testados em A
 
 | Front | Preço/bottle | Frete |
 |:--|:--:|:--|
-| **2 bottles** | **$79** | + **$19,99** de frete |
-| **3 bottles** | **$69** | Grátis |
-| **6 bottles** | **$49** | Grátis |
+| 2 bottles | $79 | + $19,99 de frete |
+| 3 bottles | $69 | Grátis |
+| 6 bottles | $49 | Grátis |
 
-**Assinatura:** front menor é **2 bottles** (não 1) com frete (~$19,99). Usado em afiliação BHEver.
+**Assinatura:** front menor é 2 bottles (não 1) com frete (~$19,99). Usado em afiliação BHEver.
 
 ### Pitch 5.2 — Afiliação Instituto X
 
 | Front | Preço/bottle | Frete |
 |:--|:--:|:--|
-| **2 bottles** | **$79** | + **$9,99** de frete |
-| **3 bottles** | **$69** | Grátis |
-| **6 bottles** | **$49** | Grátis |
+| 2 bottles | $79 | + $9,99 de frete |
+| 3 bottles | $69 | Grátis |
+| 6 bottles | $49 | Grátis |
 
-**Assinatura:** preços por bottle **idênticos ao 5.1** — única diferença é o **frete do front de 2 bottles**, que aqui é **$9,99** (em vez de $19,99 do 5.1). Usado em afiliação Instituto X.
+**Assinatura:** preços por bottle **idênticos ao 5.1** — única diferença é o **frete do front de 2 bottles**, que aqui é $9,99 (em vez de $19,99 do 5.1). Usado em afiliação Instituto X.
 
 ⚠️ **Pelos preços por bottle, 5.1 e 5.2 são indistinguíveis.** A diferença é exclusivamente o **valor do frete do front de 2 bottles** ($19,99 = 5.1; $9,99 = 5.2). Cerbero detecta isso pela extração do `shipping` do botão do front no admin/checkout — então quando bater 2 bottles $79, sempre cruzar com o valor real do frete antes de reportar 5.1 ou 5.2.
 
@@ -391,8 +395,8 @@ A operação roda **vários pitches** (estruturas de oferta da LP) testados em A
 
 1. Olhe os 3 botões da LP (passo 2 do procedimento) e veja qual é o front menor (em qtd de bottles):
    - Front 1 bottle ($89) + frete → **Pitch 1.2 ou 3.2** (ambíguo — flag #14)
-   - Front 2 bottles ($79) + frete **$19,99** → **Pitch 5.1** (BHEver)
-   - Front 2 bottles ($79) + frete **$9,99** → **Pitch 5.2** (Instituto X)
+   - Front 2 bottles ($79) + frete $19,99 → **Pitch 5.1** (BHEver)
+   - Front 2 bottles ($79) + frete $9,99 → **Pitch 5.2** (Instituto X)
 2. Os preços de 3 ($69) e 6 ($49) são iguais em 1.2 / 3.2 / 5.1 / 5.2 — não diferenciam.
 3. Se os preços **não baterem com nenhum pitch**, **não presuma nada** — sinalize **"Pitch não catalogado"** e abra red flag (ver check #15).
 4. Sempre inclua **"Pitch utilizado"** no cabeçalho do relatório (junto de URL, data, produto).
@@ -409,25 +413,25 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 6 bottles | **$19** | **$114** |
-| 4 bottles | **$25** | **$98** |
-| 2 bottles | **$29** | **$58** |
+| 6 bottles | $19 | $114 |
+| 4 bottles | $25 | $98 |
+| 2 bottles | $29 | $58 |
 
 **Upsell 1-B** (cliente veio do FRONT 03 — comprou 3 bottles)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 12 bottles | **$17** | **$198** |
-| 9 bottles | **$19** | **$171** |
-| 6 bottles | **$25** | **$147** |
+| 12 bottles | $17 | $198 |
+| 9 bottles | $19 | $171 |
+| 6 bottles | $25 | $147 |
 
 **Upsell 1-C** (cliente veio do FRONT 06 — comprou 6 bottles)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 12 bottles | **$29** | **$348** |
-| 9 bottles | **$37** | **$333** |
-| 6 bottles | **$49** | **$294** |
+| 12 bottles | $29 | $348 |
+| 9 bottles | $37 | $333 |
+| 6 bottles | $49 | $294 |
 
 #### Downsell 1 do Upsell 1 (em vídeo)
 
@@ -437,15 +441,15 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 2 + 1 FREE | **$29** | **$87** |
-| 2 bottles | **$39** | **$78** |
+| 2 + 1 FREE | $29 | $87 |
+| 2 bottles | $39 | $78 |
 
 **Downsell 1-B** (cliente veio do FRONT 06)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 6 + 3 FREE | **$29** | **$261** |
-| 4 bottles | **$39** | **$156** |
+| 6 + 3 FREE | $29 | $261 |
+| 4 bottles | $39 | $156 |
 
 **Notas sobre o Downsell 1 do Upsell 1 do Funil 8.0:**
 - "$/frasco" é calculado sobre o **total de bottles incluindo os FREE** ($87 ÷ 3 = $29; $261 ÷ 9 = $29). Isso conecta com o check #9 (Pack "X + Y FREE") — usar `total_bottles = X + Y`.
@@ -459,13 +463,13 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 1 bottle | **$49** | **$49** |
+| 1 bottle | $49 | $49 |
 
 **Downsell 2-B** (cliente veio do FRONT 06)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 3 bottles | **$39** | **$117** |
+| 3 bottles | $39 | $117 |
 
 **Notas sobre o Downsell 2 do Upsell 1 do Funil 8.0:**
 - Downsell 2 do Upsell 1 não tem opção "X+Y FREE" — é oferta única por variante.
@@ -480,17 +484,17 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 9 bottles | **$16** | **$144** |
-| 6 bottles | **$17** | **$99** |
-| 2 bottles | **$24** | **$48** |
+| 9 bottles | $16 | $144 |
+| 6 bottles | $17 | $99 |
+| 2 bottles | $24 | $48 |
 
 **Upsell 2-B** (cliente veio do FRONT 03 ou FRONT 06)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 12 bottles | **$19** | **$228** |
-| 6 bottles | **$29** | **$174** |
-| 3 bottles | **$33** | **$99** |
+| 12 bottles | $19 | $228 |
+| 6 bottles | $29 | $174 |
+| 3 bottles | $33 | $99 |
 
 **Notas sobre o Upsell 2 do Funil 8.0:**
 - Mesmo padrão de arredondamento do Upsell 1: o `$/frasco` cadastrado é arredondado pra cima; o `total` é o valor real cobrado. Ex.: Upsell 2-A 6 bottles cadastrado como $17/und × 6 = $102 nominal, mas total real é $99 ($16,50/und efetivo). Cerbero deve usar o `total` extraído como fonte de verdade pro check de preço.
@@ -502,7 +506,7 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 3 bottles | **$39** | **$117** |
+| 3 bottles | $39 | $117 |
 
 **Notas sobre o Downsell 1 do Upsell 2 do Funil 8.0:**
 - Não há variante por front — é a mesma oferta para FRONT 01, FRONT 03 e FRONT 06.
@@ -519,25 +523,25 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 6 bottles | **$19** | **$114** |
-| 4 bottles | **$25** | **$98** |
-| 2 bottles | **$29** | **$58** |
+| 6 bottles | $19 | $114 |
+| 4 bottles | $25 | $98 |
+| 2 bottles | $29 | $58 |
 
 **Upsell 1-B** (cliente veio do FRONT 03 — comprou 3 bottles)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 12 bottles | **$17** | **$198** |
-| 9 bottles | **$19** | **$171** |
-| 6 bottles | **$25** | **$147** |
+| 12 bottles | $17 | $198 |
+| 9 bottles | $19 | $171 |
+| 6 bottles | $25 | $147 |
 
 **Upsell 1-C** (cliente veio do FRONT 06 — comprou 6 bottles)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 12 bottles | **$29** | **$348** |
-| 9 bottles | **$37** | **$333** |
-| 6 bottles | **$49** | **$294** |
+| 12 bottles | $29 | $348 |
+| 9 bottles | $37 | $333 |
+| 6 bottles | $49 | $294 |
 
 #### Upsell 2
 
@@ -547,17 +551,17 @@ Além do pitch da LP, Cerbero também deve identificar **qual funil de upsell/do
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 9 bottles | **$16** | **$144** |
-| 6 bottles | **$17** | **$99** |
-| 2 bottles | **$24** | **$48** |
+| 9 bottles | $16 | $144 |
+| 6 bottles | $17 | $99 |
+| 2 bottles | $24 | $48 |
 
 **Upsell 2-B** (cliente veio do FRONT 03 ou FRONT 06)
 
 | Qtd | $/frasco | Total |
 |:--|:--:|:--:|
-| 12 bottles | **$19** | **$228** |
-| 6 bottles | **$29** | **$174** |
-| 3 bottles | **$33** | **$99** |
+| 12 bottles | $19 | $228 |
+| 6 bottles | $29 | $174 |
+| 3 bottles | $33 | $99 |
 
 **Notas sobre o Funil 8.1:**
 - Mesmo padrão de arredondamento do 8.0: `$/frasco` cadastrado arredondado pra cima; `total` é o valor real cobrado. Cerbero usa o `total` extraído como fonte de verdade.
